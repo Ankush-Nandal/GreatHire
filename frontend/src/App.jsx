@@ -12,7 +12,9 @@ import TermsAndConditions from "./components/Policies/TermsAndConditions";
 import Profile from "./components/Profile";
 import { JobDetailsProvider } from "./context/JobDetailsContext";
 
+import Dashboard from "./components/admin/Dashboard";
 import PostJob from "./components/admin/PostJob";
+
 
 const appRouter = createBrowserRouter([
   {
@@ -63,8 +65,10 @@ const appRouter = createBrowserRouter([
     path: "/admin/post-job",
     element: <PostJob />,
   },
-  //Pull req. check..... (change by ankush sir)...
-  // complete this project at saturday
+  {
+    path: "/admin/dashboard",
+    element: <Dashboard />,
+  },
 ]);
 
 function App() {

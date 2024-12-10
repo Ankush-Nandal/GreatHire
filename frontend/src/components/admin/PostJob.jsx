@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../shared/Navbar";
+import postJob from "../../image/postjob.png";
 
 const PostJob = () => {
   const [formData, setFormData] = useState({
@@ -42,179 +43,99 @@ const PostJob = () => {
 
   return (
     <>
-      <Navbar/>
-      <div className="max-w-4xl mx-auto bg-gray-100 shadow-lg rounded-lg p-6 mt-5">
-        <h2 className="text-2xl font-bold mb-6">Add Job Details</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium">Job Title</label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter job title"
-            />
-          </div>
+      <Navbar />
+      <div className="my-5 flex items-center justify-center">
+        <h1 className="font-semibold text-4xl bg-blue-100 px-5 rounded-lg text-blue-700 animate-bounce">
+          Post Job
+        </h1>
+      </div>
+      <div className="flex flex-col-reverse md:flex-row  max-w-7xl justify-between px-4 md:px-2 gap-6">
+        {/* Form Section */}
+        <div className="bg-white shadow-lg rounded-lg p-6 w-full ">
+          <h2 className="text-2xl font-bold mb-6 text-blue-700">Add Job Details</h2>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {[
+              { name: "title", label: "Job Title", placeholder: "Enter job title" },
+              { name: "companyName", label: "Company Name", placeholder: "Enter company name" },
+              { name: "rating", label: "Rating", placeholder: "Enter rating", type: "number" },
+              { name: "location", label: "Location", placeholder: "Enter location" },
+              { name: "respond", label: "Respond Time", placeholder: "Typically responds within 1 day" },
+              { name: "salary", label: "Salary", placeholder: "Enter salary range" },
+              { name: "duration", label: "Duration", placeholder: "Enter duration (e.g., Monday to Friday)" },
+            ].map((field) => (
+              <div key={field.name}>
+                <label className="block text-lg font-medium text-blue-600 mb-1">
+                  {field.label}
+                </label>
+                <input
+                  type={field.type || "text"}
+                  name={field.name}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder={field.placeholder}
+                />
+              </div>
+            ))}
+            <div>
+              <label className="block text-lg font-medium text-blue-600 mb-1">Job Type</label>
+              <select
+                name="jobType"
+                value={formData.jobType}
+                onChange={handleChange}
+                className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Job Type</option>
+                <option value="Remote">Remote</option>
+                <option value="On-site">On-site</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="Full Time">Full Time</option>
+                <option value="Part Time">Part Time</option>
+                <option value="Internship">Internship</option>
+              </select>
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium">Company Name</label>
-            <input
-              type="text"
-              name="companyName"
-              value={formData.companyName}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter company name"
-            />
-          </div>
+            {[
+              { name: "details", label: "Details", placeholder: "Enter details, each item on a new line" },
+              { name: "skills", label: "Skills", placeholder: "Enter skills separated by commas" },
+              { name: "qualifications", label: "Qualifications", placeholder: "Enter qualifications, each item on a new line" },
+              { name: "benefits", label: "Benefits", placeholder: "Enter benefits, each item on a new line" },
+              { name: "responsibilities", label: "Responsibilities", placeholder: "Enter responsibilities, each item on a new line" },
+            ].map((field) => (
+              <div key={field.name}>
+                <label className="block text-lg font-medium text-blue-600 mb-1">
+                  {field.label}
+                </label>
+                <textarea
+                  name={field.name}
+                  value={formData[field.name]}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder={field.placeholder}
+                  rows={3}
+                ></textarea>
+              </div>
+            ))}
 
-          <div>
-            <label className="block text-sm font-medium">Rating</label>
-            <input
-              type="number"
-              name="rating"
-              value={formData.rating}
-              onChange={handleChange}
-              step="0.1"
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter rating"
-            />
-          </div>
+            <div className="text-right">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
 
-          <div>
-            <label className="block text-sm font-medium">Location</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter location"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Respond Time</label>
-            <input
-              type="text"
-              name="respond"
-              value={formData.respond}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="e.g., Typically responds within 1 day"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Salary</label>
-            <input
-              type="text"
-              name="salary"
-              value={formData.salary}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter salary range"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Job Type</label>
-            <select
-              name="jobType"
-              value={formData.jobType}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-            >
-              <option value="">Select Job Type</option>
-              <option value="Remote">Remote</option>
-              <option value="On-site">On-site</option>
-              <option value="Hybrid">Hybrid</option>
-              <option value="Hybrid">Full Time</option>
-              <option value="Hybrid">Part Time</option>
-              <option value="Hybrid">Internship</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Duration</label>
-            <input
-              type="text"
-              name="duration"
-              value={formData.duration}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter duration (e.g., Monday to Friday)"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Details</label>
-            <textarea
-              name="details"
-              value={formData.details}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter details, each item on a new line"
-            ></textarea>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Skills</label>
-            <textarea
-              name="skills"
-              value={formData.skills}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter skills separated by commas"
-            ></textarea>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Qualifications</label>
-            <textarea
-              name="qualifications"
-              value={formData.qualifications}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter qualifications, each item on a new line"
-            ></textarea>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Benefits</label>
-            <textarea
-              name="benefits"
-              value={formData.benefits}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter benefits, each item on a new line"
-            ></textarea>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">
-              Responsibilities
-            </label>
-            <textarea
-              name="responsibilities"
-              value={formData.responsibilities}
-              onChange={handleChange}
-              className="w-full mt-2 p-2 border rounded-md"
-              placeholder="Enter responsibilities, each item on a new line"
-            ></textarea>
-          </div>
-
-          <div className="text-right">
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded-md"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+        {/* Image Section */}
+        <div className="w-full justify-center flex transform origin-left animate-slide-in-right">
+          <img
+            src={postJob}
+            alt="Job Post"
+            className=" max-w-sm md:max-w-full rounded-lg object-full"
+          />
+        </div>
       </div>
     </>
   );

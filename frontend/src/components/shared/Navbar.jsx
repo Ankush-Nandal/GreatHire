@@ -4,11 +4,13 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth || {});
-  // console.log(user);
   const [isPolicyHovered, setIsPolicyHovered] = useState(false);
+
+  const isStudent = user?.role === "student";
+
   return (
-    <div className="bg-white shadow-md">
-      <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
+    <nav className="bg-white shadow-md">
+      <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-4">
         {/* Logo */}
         <div>
           <h1 className="text-2xl font-bold">
@@ -18,115 +20,79 @@ const Navbar = () => {
 
         {/* Navbar Links */}
         <div className="flex items-center gap-12">
-          {user?.role === "recruiter" ? (
-            <ul className="flex font-medium items-center gap-5">
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/jobs">Jobs</Link>
-              </li>
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/browse">Browse</Link>
-              </li>
+          <ul className="flex font-medium items-center gap-5">
+            {isStudent ? (
+              <>
+                <li className="hover:text-blue-700 transition duration-200">
+                  <Link to="/admin/dashboard">Dashboard</Link>
+                </li>
+                <li className="hover:text-blue-700 transition duration-200">
+                  <Link to="/">Your Jobs</Link>
+                </li>
+                <li className="hover:text-blue-700 transition duration-200">
+                  <Link to="/jobs">Search Jobs</Link>
+                </li>
+                <li className="hover:text-blue-700 transition duration-200">
+                  <Link to="/admin/post-job">Post Job</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="hover:text-blue-700 transition duration-200">
+                  <Link to="/">Home</Link>
+                </li>
+                <li className="hover:text-blue-700 transition duration-200">
+                  <Link to="/jobs">Search Jobs</Link>
+                </li>
+              </>
+            )}
 
-              {/* Policies Dropdown */}
-              <li
-                className="relative"
-                onMouseEnter={() => setIsPolicyHovered(true)}
-                onMouseLeave={() => setIsPolicyHovered(false)}
+            {/* Policies Dropdown */}
+            <li
+              className="relative"
+              onMouseEnter={() => setIsPolicyHovered(true)}
+              onMouseLeave={() => setIsPolicyHovered(false)}
+            >
+              <button
+                className="font-medium focus:outline-none hover:text-blue-700 transition duration-200"
+                aria-haspopup="true"
+                aria-expanded={isPolicyHovered}
               >
-                <button className="font-medium focus:outline-none hover:text-blue-700 transition duration-200">
-                  Policy's
-                </button>
-                {isPolicyHovered && (
-                  <div className="absolute left-0 flex flex-col bg-white border rounded-xl shadow-xl  p-2 w-60 transform origin-left animate-slide-in-right z-20">
-                    <Link
-                      to="/policy/privacy-policy"
-                      className="px-4 py-2 hover:bg-gray-100"
-                    >
-                      Privacy Policy
-                    </Link>
-                    <Link
-                      to="/policy/refund-policy"
-                      className="px-4 py-2 hover:bg-gray-100"
-                    >
-                      Refund and Return Policy
-                    </Link>
-                    <Link
-                      to="/policy/terms-and-conditions"
-                      className="px-4 py-2 hover:bg-gray-100"
-                    >
-                      Terms and Conditions
-                    </Link>
-                  </div>
-                )}
-              </li>
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/contact">Contact us</Link>
-              </li>
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/admin/post-company">Post Company</Link>
-              </li>
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/admin/post-job">Post Job</Link>
-              </li>
-            </ul>
-          ) : (
-            <ul className="flex font-medium items-center gap-5">
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/jobs">Jobs</Link>
-              </li>
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/browse">Browse</Link>
-              </li>
-
-              {/* Policies Dropdown */}
-              <li
-                className="relative"
-                onMouseEnter={() => setIsPolicyHovered(true)}
-                onMouseLeave={() => setIsPolicyHovered(false)}
-              >
-                <button className="font-medium focus:outline-none hover:text-blue-700 transition duration-200">
-                  Policy's
-                </button>
-                {isPolicyHovered && (
-                  <div className="absolute left-0 flex flex-col bg-white border rounded-xl shadow-xl  p-2 w-60 transform origin-left animate-slide-in-right z-20">
-                    <Link
-                      to="/policy/privacy-policy"
-                      className="px-4 py-2 hover:bg-gray-100"
-                    >
-                      Privacy Policy
-                    </Link>
-                    <Link
-                      to="/policy/refund-policy"
-                      className="px-4 py-2 hover:bg-gray-100"
-                    >
-                      Refund and Return Policy
-                    </Link>
-                    <Link
-                      to="/policy/terms-and-conditions"
-                      className="px-4 py-2 hover:bg-gray-100"
-                    >
-                      Terms and Conditions
-                    </Link>
-                  </div>
-                )}
-              </li>
-              <li className="hover:text-blue-700 transition duration-200">
-                <Link to="/contact">Contact us</Link>
-              </li>
-            </ul>
-          )}
+                Policies
+              </button>
+              {isPolicyHovered && (
+                <div className="absolute left-0 bg-white border rounded-xl shadow-xl p-2 w-60 z-20 transform origin-left animate-slide-in-right">
+                  <Link
+                    to="/policy/privacy-policy"
+                    className="px-4 py-2 hover:bg-gray-100 block"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link
+                    to="/policy/refund-policy"
+                    className="px-4 py-2 hover:bg-gray-100 block"
+                  >
+                    Refund and Return Policy
+                  </Link>
+                  <Link
+                    to="/policy/terms-and-conditions"
+                    className="px-4 py-2 hover:bg-gray-100 block"
+                  >
+                    Terms and Conditions
+                  </Link>
+                </div>
+              )}
+            </li>
+            <li className="hover:text-blue-700 transition duration-200">
+              <Link to="/contact">Contact us</Link>
+            </li>
+          </ul>
 
           {/* User Authentication */}
           {!user ? (
             <div className="flex items-center gap-2">
               <Link to="/login">
-                <button className="bg-gradient-to-r from-[#3043a3] to-[#435bc5] text-white hover:from-[#4350c5] hover:to-[#303fa3]  shadow-md px-4 py-2 rounded">
+                <button className="bg-gradient-to-r from-[#3043a3] to-[#435bc5] text-white hover:from-[#4350c5] hover:to-[#303fa3] shadow-md px-4 py-2 rounded">
                   Login
                 </button>
               </Link>
@@ -141,7 +107,7 @@ const Navbar = () => {
               {/* User Avatar */}
               <div className="cursor-pointer hover:ring-2 hover:ring-[#355ff8] rounded-full p-1">
                 <img
-                  src={user.profile.profilePhoto}
+                  src={user?.profile?.profilePhoto || "/default-avatar.png"}
                   alt="User Avatar"
                   className="w-10 h-10 rounded-full"
                 />
@@ -150,7 +116,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

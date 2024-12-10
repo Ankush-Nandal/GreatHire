@@ -41,5 +41,4 @@ const store = configureStore({
 
 // Persistor to persist the store
 export const persistor = persistStore(store);
-
 export default store;
