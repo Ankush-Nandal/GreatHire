@@ -11,7 +11,8 @@ import RefundAndReturnPolicy from "./components/Policies/RefundAndReturnPolicy";
 import TermsAndConditions from "./components/Policies/TermsAndConditions";
 import Contact from "./components/Contact";
 import { JobDetailsProvider } from "./context/JobDetailsContext";
-// this is osm
+
+import PostJob from "./components/admin/PostJob";
 
 const appRouter = createBrowserRouter([
   {
@@ -58,6 +59,11 @@ const appRouter = createBrowserRouter([
     path: "/contact",
     element: <Contact />,
   },
+  {
+    path: "/admin/post-job",
+    element: <PostJob />,
+  },
+  
 ]);
 
 function App() {
