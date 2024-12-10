@@ -63,7 +63,7 @@ const appRouter = createBrowserRouter([
     path: "/admin/post-job",
     element: <PostJob />,
   },
-  //Pull req. check..... (change by ankush sir)
+  //Pull req. check..... (change by ankush sir)...
 ]);
 
 function App() {
