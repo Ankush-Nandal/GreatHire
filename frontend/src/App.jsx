@@ -62,11 +62,11 @@ const appRouter = createBrowserRouter([
     element: <Contact />,
   },
   {
-    path: "/admin/post-job",
+    path: "/recrutier/post-job",
     element: <PostJob />,
   },
   {
-    path: "/admin/dashboard",
+    path: "/recrutier/dashboard",
     element: <Dashboard />,
   },
 ]);

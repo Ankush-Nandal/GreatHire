@@ -24,7 +24,7 @@ const Navbar = () => {
             {isStudent ? (
               <>
                 <li className="hover:text-blue-700 transition duration-200">
-                  <Link to="/admin/dashboard">Dashboard</Link>
+                  <Link to="/recrutier/dashboard">Dashboard</Link>
                 </li>
                 <li className="hover:text-blue-700 transition duration-200">
                   <Link to="/">Your Jobs</Link>
@@ -33,7 +33,7 @@ const Navbar = () => {
                   <Link to="/jobs">Search Jobs</Link>
                 </li>
                 <li className="hover:text-blue-700 transition duration-200">
-                  <Link to="/admin/post-job">Post Job</Link>
+                  <Link to="/recrutier/post-job">Post Job</Link>
                 </li>
               </>
             ) : (
