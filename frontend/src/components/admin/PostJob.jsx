@@ -1,10 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import Navbar from "../shared/Navbar";
 import postJob from "../../image/postjob.png";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const PostJob = () => {
+  const { user } = useSelector((store) => store.auth || {});
   const [isDropdownOpen, setIsDropdownOpen] = useState({ jobType: false, location: false });
   const dropdownRefs = useRef({ jobType: null, location: null });
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -85,17 +89,23 @@ const PostJob = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if(user.role === "recrutier"){
+      navigate("/login")
+    }
+  }, [user])
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const parsedData = {
       ...formData,
-      details: formData.details.split("\n"),
-      skills: formData.skills.split(",").map((skill) => skill.trim()),
+      details: formData.details,
+      skills: formData.skills.split("\n"),
       qualifications: formData.qualifications.split("\n"),
       benefits: formData.benefits.split("\n"),
       responsibilities: formData.responsibilities.split("\n"),
     };
-    console.log("Form Data:", parsedData);
+    console.log(parsedData)
   };
 
   return (
@@ -135,7 +145,7 @@ const PostJob = () => {
               {
                 name: "salary",
                 label: "Salary",
-                placeholder: "Enter salary range",
+                placeholder: "Enter salary range (eg. 35000 to 40000)",
               },
               {
                 name: "duration",
@@ -154,6 +164,7 @@ const PostJob = () => {
                   onChange={handleChange}
                   className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder={field.placeholder}
+                  required
                 />
               </div>
             ))}
@@ -173,6 +184,7 @@ const PostJob = () => {
                     field === "jobType" ? "Select Job Type" : "Select Location"
                   }
                   className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 />
                 {isDropdownOpen[field] && (
                   <div className="absolute z-10 bg-white border border-gray-300 rounded-md mt-1 shadow-lg w-full">
@@ -202,6 +214,7 @@ const PostJob = () => {
                   className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder={`Enter ${field}, each item on a new line`}
                   rows={3}
+                  required
                 ></textarea>
               </div>
             ))}
@@ -211,7 +224,7 @@ const PostJob = () => {
                 type="submit"
                 className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200"
               >
-                Submit
+                Post Job
               </button>
             </div>
           </form>
