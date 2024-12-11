@@ -19,10 +19,15 @@ const PostJob = () => {
     jobType: false,
     location: false,
   });
-  const dropdownRefs = useRef({ jobType: null, location: null });
+  const dropdownRefs = useRef({
+    jobType: null,
+    location: null,
+    urgentHire: null,
+  });
   const [skillInput, setSkillInput] = useState({ skill: "", required: false });
 
   const [formData, setFormData] = useState({
+    urgentHiring:"",
     title: "",
     companyName: "",
     rating: "",
@@ -46,7 +51,7 @@ const PostJob = () => {
     "Full Time",
     "Part Time",
     "Internship",
-    "Contract"
+    "Contract",
   ];
 
   const allLocations = [
@@ -65,6 +70,8 @@ const PostJob = () => {
     "Chennai, Tamil Nadu",
   ];
 
+  const urgentHiring = ["Yes", "No"];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -74,7 +81,7 @@ const PostJob = () => {
   };
 
   const handleSkillChange = (e) => {
-    const {name, value, type, checked} = e.target;
+    const { name, value, type, checked } = e.target;
     setSkillInput((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -82,7 +89,6 @@ const PostJob = () => {
   };
 
   const addSkill = () => {
-    
     if (skillInput.skill.trim() !== "") {
       setFormData((prevData) => ({
         ...prevData,
@@ -93,7 +99,7 @@ const PostJob = () => {
   };
 
   const removeSkill = (index) => {
-    console.log(index)
+    console.log(index);
     setFormData((prevData) => ({
       ...prevData,
       skills: prevData.skills.filter((_, i) => i !== index),
@@ -130,7 +136,6 @@ const PostJob = () => {
     };
   }, []);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const parsedData = {
@@ -142,6 +147,7 @@ const PostJob = () => {
     console.log(parsedData);
     // Reset the formData to initial values
     setFormData({
+      urgentHiring:"",
       title: "",
       companyName: "",
       rating: "",
@@ -161,7 +167,6 @@ const PostJob = () => {
     // Optionally, reset the skill input as well
     setSkillInput({ skill: "", required: false });
   };
-  
 
   return (
     <>
@@ -177,25 +182,20 @@ const PostJob = () => {
             Add Job Details
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* First Field */}
-            <div>
-              <label className="block text-lg font-medium text-blue-600 mb-1">
-                Job Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter job title"
-                required
-              />
-            </div>
-
-            {/* Next 8 Fields in a Grid */}
+            {/* Next 10 Fields in a Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
+                {
+                  name: "urgentHiring",
+                  label: "Is Urgent Hiring",
+                  placeholder: "Select",
+                  dropdown: true,
+                },
+                {
+                  name: "title",
+                  label: "Job Title",
+                  placeholder: "Enter job title",
+                },
                 {
                   name: "companyName",
                   label: "Company Name",
@@ -227,6 +227,7 @@ const PostJob = () => {
                   label: "Experience",
                   placeholder: "Enter experience (e.g., 1, 2 or fresher)",
                 },
+                
                 {
                   name: "jobType",
                   label: "Job Type",
@@ -267,7 +268,9 @@ const PostJob = () => {
                         <div className="absolute z-10 bg-white border border-gray-300 rounded-md mt-1 shadow-lg w-full">
                           {(field.name === "jobType"
                             ? jobTypes
-                            : allLocations
+                            : field.name === "location"
+                            ? allLocations
+                            : urgentHiring
                           ).map((option) => (
                             <div
                               key={option}
