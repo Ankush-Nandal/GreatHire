@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { RiShareBoxFill } from "react-icons/ri";
 import { BiDownArrowAlt } from "react-icons/bi";
+import { BsPersonWorkspace } from "react-icons/bs";
 import { HiLightBulb } from "react-icons/hi";
 import { FaBookOpen } from "react-icons/fa6";
 import { GrLanguage } from "react-icons/gr";
@@ -143,6 +144,19 @@ const JobMajorDetails = ({
           <div className="flex flex-wrap gap-2 mt-2">
             <div className="flex items-center w-fit p-1 rounded-lg  bg-slate-200 gap-1 text-sm text-gray-800">
               <span className="font-bold">{selectedJob?.salary}</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Experience Section */}
+        <div className="mt-2">
+          <h3 className="text-xl text-gray-500 flex items-center gap-2">
+            <BsPersonWorkspace />
+            <span className="text-xl font-bold text-black">Experience</span>
+          </h3>
+          <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex items-center w-fit px-4 rounded-lg bg-slate-200 gap-1 text-sm text-gray-800">
+              <span className="font-bold">{selectedJob?.experience} Years</span>
             </div>
           </div>
         </div>

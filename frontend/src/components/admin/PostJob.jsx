@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 const PostJob = () => {
   const { user } = useSelector((store) => store.auth || {});
-  const [isDropdownOpen, setIsDropdownOpen] = useState({ jobType: false, location: false });
+  const [isDropdownOpen, setIsDropdownOpen] = useState({
+    jobType: false,
+    location: false,
+  });
   const dropdownRefs = useRef({ jobType: null, location: null });
   const navigate = useNavigate();
 
@@ -16,11 +19,12 @@ const PostJob = () => {
     rating: "",
     location: "",
     respond: "",
+    experience: "",
     salary: "",
     jobType: "",
     duration: "",
     details: "",
-    skills: "",
+    skills: [],
     qualifications: "",
     benefits: "",
     responsibilities: "",
@@ -59,6 +63,31 @@ const PostJob = () => {
     }));
   };
 
+  const handleSkillChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setSkillInput((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const addSkill = () => {
+    if (skillInput.skill.trim() !== "") {
+      setFormData((prevData) => ({
+        ...prevData,
+        skills: [...prevData.skills, skillInput],
+      }));
+      setSkillInput({ skill: "", required: false });
+    }
+  };
+
+  const removeSkill = (index) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      skills: prevData.skills.filter((_, i) => i !== index),
+    }));
+  };
+
   const handleSelect = (field, value) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -90,23 +119,43 @@ const PostJob = () => {
   }, []);
 
   useEffect(() => {
-    if(user.role === "recrutier"){
-      navigate("/login")
+    if (user.role === "recruiter") {
+      navigate("/login");
     }
-  }, [user])
+  }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const parsedData = {
       ...formData,
       details: formData.details,
-      skills: formData.skills.split("\n"),
       qualifications: formData.qualifications.split("\n"),
       benefits: formData.benefits.split("\n"),
       responsibilities: formData.responsibilities.split("\n"),
     };
-    console.log(parsedData)
+    console.log(parsedData);
+    // Reset the formData to initial values
+    setFormData({
+      title: "",
+      companyName: "",
+      rating: "",
+      location: "",
+      respond: "",
+      experience: "",
+      salary: "",
+      jobType: "",
+      duration: "",
+      details: "",
+      skills: [],
+      qualifications: "",
+      benefits: "",
+      responsibilities: "",
+    });
+
+    // Optionally, reset the skill input as well
+    setSkillInput({ skill: "", required: false });
   };
+  const [skillInput, setSkillInput] = useState({ skill: "", required: false });
 
   return (
     <>
@@ -118,111 +167,210 @@ const PostJob = () => {
       </div>
       <div className="flex flex-col-reverse md:flex-row justify-between px-4 md:px-2 gap-6">
         <div className="bg-white shadow-lg rounded-lg p-6 w-full">
-          <h2 className="text-2xl font-bold mb-6 text-blue-700">Add Job Details</h2>
+          <h2 className="text-2xl font-bold mb-6 text-blue-700">
+            Add Job Details
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
-            {[
-              {
-                name: "title",
-                label: "Job Title",
-                placeholder: "Enter job title",
-              },
-              {
-                name: "companyName",
-                label: "Company Name",
-                placeholder: "Enter company name",
-              },
-              {
-                name: "rating",
-                label: "Rating",
-                placeholder: "Enter rating",
-                type: "number",
-              },
-              {
-                name: "respond",
-                label: "Respond Time",
-                placeholder: "Typically responds within 1 day",
-              },
-              {
-                name: "salary",
-                label: "Salary",
-                placeholder: "Enter salary range (eg. 35000 to 40000)",
-              },
-              {
-                name: "duration",
-                label: "Duration",
-                placeholder: "Enter duration (e.g., Monday to Friday)",
-              },
-            ].map((field) => (
-              <div key={field.name}>
-                <label className="block text-lg font-medium text-blue-600 mb-1">
-                  {field.label}
-                </label>
-                <input
-                  type={field.type || "text"}
-                  name={field.name}
-                  value={formData[field.name]}
-                  onChange={handleChange}
-                  className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={field.placeholder}
-                  required
-                />
-              </div>
-            ))}
+            {/* First Field */}
+            <div>
+              <label className="block text-lg font-medium text-blue-600 mb-1">
+                Job Title
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter job title"
+                required
+              />
+            </div>
 
-            {["jobType", "location"].map((field) => (
-              <div key={field} ref={(el) => (dropdownRefs.current[field] = el)} className="relative">
-                <label className="block text-lg font-medium text-blue-600 mb-1">
-                  {field === "jobType" ? "Job Type" : "Location"}
-                </label>
+            {/* Next 8 Fields in a Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                {
+                  name: "companyName",
+                  label: "Company Name",
+                  placeholder: "Enter company name",
+                },
+                {
+                  name: "rating",
+                  label: "Rating",
+                  placeholder: "Enter rating",
+                  type: "number",
+                },
+                {
+                  name: "respond",
+                  label: "Respond Time",
+                  placeholder: "Typically responds within 1 day",
+                },
+                {
+                  name: "salary",
+                  label: "Salary",
+                  placeholder: "Enter salary range (e.g., 35000 to 40000)",
+                },
+                {
+                  name: "duration",
+                  label: "Duration",
+                  placeholder: "Enter duration (e.g., Monday to Friday)",
+                },
+                {
+                  name: "experience",
+                  label: "Experience",
+                  placeholder: "Enter experience (e.g., 1, 2 or fresher)",
+                },
+                {
+                  name: "jobType",
+                  label: "Job Type",
+                  placeholder: "Select Job Type",
+                  dropdown: true,
+                },
+                {
+                  name: "location",
+                  label: "Location",
+                  placeholder: "Select Location",
+                  dropdown: true,
+                },
+              ].map((field) => (
+                <div
+                  key={field.name}
+                  ref={
+                    field.dropdown
+                      ? (el) => (dropdownRefs.current[field.name] = el)
+                      : null
+                  }
+                >
+                  <label className="block text-lg font-medium text-blue-600 mb-1">
+                    {field.label}
+                  </label>
+                  {field.dropdown ? (
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name={field.name}
+                        value={formData[field.name]}
+                        onChange={handleChange}
+                        onFocus={() => handleFocus(field.name)}
+                        placeholder={field.placeholder}
+                        className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                      />
+                      {isDropdownOpen[field.name] && (
+                        <div className="absolute z-10 bg-white border border-gray-300 rounded-md mt-1 shadow-lg w-full">
+                          {(field.name === "jobType"
+                            ? jobTypes
+                            : allLocations
+                          ).map((option) => (
+                            <div
+                              key={option}
+                              onClick={() => handleSelect(field.name, option)}
+                              className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                            >
+                              {option}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <input
+                      type={field.type || "text"}
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder={field.placeholder}
+                      required
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Skills */}
+            <div>
+              <label className="block text-lg font-medium text-blue-600 mb-1">
+                Skills
+              </label>
+              <div className="flex items-center gap-4 mb-4">
                 <input
                   type="text"
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  onFocus={() => handleFocus(field)}
-                  placeholder={
-                    field === "jobType" ? "Select Job Type" : "Select Location"
-                  }
-                  className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  name="skill"
+                  value={skillInput.skill}
+                  onChange={handleSkillChange}
+                  className="flex-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter skill"
                   required
                 />
-                {isDropdownOpen[field] && (
-                  <div className="absolute z-10 bg-white border border-gray-300 rounded-md mt-1 shadow-lg w-full">
-                    {(field === "jobType" ? jobTypes : allLocations).map((option) => (
-                      <div
-                        key={option}
-                        onClick={() => handleSelect(field, option)}
-                        className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
-                      >
-                        {option}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-
-            {["details", "skills", "qualifications", "benefits", "responsibilities"].map((field) => (
-              <div key={field}>
-                <label className="block text-lg font-medium text-blue-600 mb-1">
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    name="required"
+                    checked={skillInput.required}
+                    onChange={handleSkillChange}
+                    className="h-4 w-4"
+                  />
+                  Required
                 </label>
-                <textarea
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={`Enter ${field}, each item on a new line`}
-                  rows={3}
-                  required
-                ></textarea>
+                <button
+                  type="button"
+                  onClick={addSkill}
+                  className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200"
+                >
+                  Add
+                </button>
               </div>
-            ))}
+              <ul className="space-y-2">
+                {formData.skills.map((skill, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center justify-between p-2 bg-gray-100 rounded-md"
+                  >
+                    <span>
+                      {skill.skill}{" "}
+                      {skill.required && (
+                        <span className="text-red-500">(Required)</span>
+                      )}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removeSkill(index)}
+                      className="text-red-600 hover:underline"
+                    >
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
+            {/* Multi-line Text Areas */}
+            {["details", "qualifications", "benefits", "responsibilities"].map(
+              (field) => (
+                <div key={field}>
+                  <label className="block text-lg font-medium text-blue-600 mb-1">
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                  </label>
+                  <textarea
+                    name={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    className="w-full mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={`Enter ${field}, each item on a new line`}
+                    rows={3}
+                    required
+                  ></textarea>
+                </div>
+              )
+            )}
+
+            {/* Submit Button */}
             <div className="text-right">
               <button
                 type="submit"
-                className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200"
+                className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200"
               >
                 Post Job
               </button>
