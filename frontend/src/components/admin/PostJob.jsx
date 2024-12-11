@@ -5,13 +5,22 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const PostJob = () => {
+  const navigate = useNavigate();
+
   const { user } = useSelector((store) => store.auth || {});
+  // check if user recuriter or not
+  useEffect(() => {
+    if (user.role === "recruiter") {
+      navigate("/login");
+    }
+  }, [user]);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState({
     jobType: false,
     location: false,
   });
   const dropdownRefs = useRef({ jobType: null, location: null });
-  const navigate = useNavigate();
+  const [skillInput, setSkillInput] = useState({ skill: "", required: false });
 
   const [formData, setFormData] = useState({
     title: "",
@@ -37,6 +46,7 @@ const PostJob = () => {
     "Full Time",
     "Part Time",
     "Internship",
+    "Contract"
   ];
 
   const allLocations = [
@@ -64,7 +74,7 @@ const PostJob = () => {
   };
 
   const handleSkillChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const {name, value, type, checked} = e.target;
     setSkillInput((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -72,6 +82,7 @@ const PostJob = () => {
   };
 
   const addSkill = () => {
+    
     if (skillInput.skill.trim() !== "") {
       setFormData((prevData) => ({
         ...prevData,
@@ -82,6 +93,7 @@ const PostJob = () => {
   };
 
   const removeSkill = (index) => {
+    console.log(index)
     setFormData((prevData) => ({
       ...prevData,
       skills: prevData.skills.filter((_, i) => i !== index),
@@ -118,17 +130,11 @@ const PostJob = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (user.role === "recruiter") {
-      navigate("/login");
-    }
-  }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const parsedData = {
       ...formData,
-      details: formData.details,
       qualifications: formData.qualifications.split("\n"),
       benefits: formData.benefits.split("\n"),
       responsibilities: formData.responsibilities.split("\n"),
@@ -155,7 +161,7 @@ const PostJob = () => {
     // Optionally, reset the skill input as well
     setSkillInput({ skill: "", required: false });
   };
-  const [skillInput, setSkillInput] = useState({ skill: "", required: false });
+  
 
   return (
     <>
@@ -302,7 +308,6 @@ const PostJob = () => {
                   onChange={handleSkillChange}
                   className="flex-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Enter skill"
-                  required
                 />
                 <label className="flex items-center gap-2">
                   <input
