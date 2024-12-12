@@ -12,8 +12,6 @@ import TermsAndConditions from "./components/Policies/TermsAndConditions";
 import Profile from "./components/Profile";
 import { JobDetailsProvider } from "./context/JobDetailsContext";
 
-import Dashboard from "./components/admin/Dashboard";
-import PostJob from "./components/admin/PostJob";
 import MainApply from "./components/ApplyJobs/MainApply";
 import ReportJob from "./components/ReportJob";
 
@@ -70,12 +68,7 @@ const appRouter = createBrowserRouter([
     path: "/report-job/:id",
     element: <ReportJob />,
   },
-  {
-    path: "/recruiter/post-job",
-    element: <PostJob />,
-  },
-  //Pull req. check..... (change by ankush sir)...
-  // complete this project at saturday
+  
 ]);
 
 function App() {
