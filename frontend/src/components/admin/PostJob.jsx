@@ -10,7 +10,7 @@ const PostJob = () => {
   const { user } = useSelector((store) => store.auth || {});
   // check if user recuriter or not
   useEffect(() => {
-    if (user.role === "recruiter") {
+    if (user.role !== "recruiter") {
       navigate("/login");
     }
   }, [user]);

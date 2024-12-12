@@ -27,6 +27,13 @@ const JobsForYou = () => {
   } = useJobDetails(); // Access functions from context
 
   const navigate = useNavigate();
+  const [isClickOnThreeDot, setClickOnThreeDot] = useState(false);
+
+  // for bookmark job for particular user
+  const handleBookmark = () => {};
+
+  // for hide job for particular user
+  const handleHiddenJob = () => {};
 
   useEffect(() => {
     // Set the initial selected job if it's not already set
@@ -35,9 +42,9 @@ const JobsForYou = () => {
       setSelectedJob(defaultJob); // Set default selected job
     }
   }, []);
-  const [isClickOnThreeDot, setClickOnThreeDot] = useState(false);
+
   return (
-    <div className="flex justify-center  mt-4 gap-4 h-screen sticky top-10 ">
+    <div className="flex justify-center  mt-4 gap-4 h-screen sticky top-10 lg:px-6">
       {/* Job List */}
       <div
         className={`flex flex-col gap-4 w-full md:w-1/2  h-screen m-5 md:m-0  scrollbar-hide overflow-y-scroll  `}
@@ -61,8 +68,10 @@ const JobsForYou = () => {
               <p className="text-sm bg-violet-100 rounded-md p-1 text-violet-800 font-bold">
                 Urgent Hiring
               </p>
-              <BsThreeDotsVertical onClick={() => setClickOnThreeDot(!isClickOnThreeDot)} />
-              { selectedJob?.id === job.id && isClickOnThreeDot &&  (
+              <BsThreeDotsVertical
+                onClick={() => setClickOnThreeDot(!isClickOnThreeDot)}
+              />
+              {selectedJob?.id === job.id && isClickOnThreeDot && (
                 <div className="absolute top-10 right-2 border border-black rounded-lg p-2 flex-col justify-center gap-10 z-20 transform origin-left animate-slide-in-right">
                   <p className="p-2 flex gap-2 items-center text-gray-800 hover:bg-gray-200 rounded-lg">
                     <CiBookmark size={25} />
@@ -72,7 +81,10 @@ const JobsForYou = () => {
                     <MdBlock size={25} />
                     <span>Not interested</span>
                   </p>
-                  <p className="p-2 flex gap-2 items-center text-gray-800 hover:bg-gray-200 rounded-lg">
+                  <p
+                    className="p-2 flex gap-2 items-center text-gray-800 hover:bg-gray-200 rounded-lg"
+                    onClick={() => navigate(`/report-job/${selectedJob?.id}`)}
+                  >
                     <BsFlagFill />
                     <span>Is there a problem with job?</span>
                   </p>

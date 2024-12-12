@@ -11,6 +11,7 @@ import RefundAndReturnPolicy from "./components/Policies/RefundAndReturnPolicy";
 import TermsAndConditions from "./components/Policies/TermsAndConditions";
 import Profile from "./components/Profile";
 import { JobDetailsProvider } from "./context/JobDetailsContext";
+import ReportJob from "./components/ReportJob";
 
 import Dashboard from "./components/admin/Dashboard";
 import PostJob from "./components/admin/PostJob";
@@ -62,11 +63,15 @@ const appRouter = createBrowserRouter([
     element: <Contact />,
   },
   {
-    path: "/recrutier/post-job",
+    path: "/report-job/:id",
+    element: <ReportJob />,
+  },
+  {
+    path: "/recruiter/post-job",
     element: <PostJob />,
   },
   {
-    path: "/recrutier/dashboard",
+    path: "/recruiter/dashboard",
     element: <Dashboard />,
   },
 ]);

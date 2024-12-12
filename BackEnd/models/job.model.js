@@ -55,7 +55,7 @@ const jobSchema = new mongoose.Schema(
       required: true,
     },
     respond: {
-      type: string,
+      type: String,
       required: true,
     },
     skills: [
