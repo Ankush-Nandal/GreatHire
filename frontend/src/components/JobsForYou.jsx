@@ -132,7 +132,7 @@ const JobsForYou = () => {
                 <button
                   className="flex items-center gap-1"
                   onClick={() => {
-                    navigate(`/apply-job/${1}`);
+                    navigate("/apply");
                   }}
                 >
                   Apply Now <RiShareBoxFill />

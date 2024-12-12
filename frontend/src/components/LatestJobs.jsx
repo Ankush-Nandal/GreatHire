@@ -3,8 +3,6 @@ import LatestJobCards from './LatestJobCards';
 //import { useSelector } from 'react-redux'; 
 import JobsForYou from './JobsForYou.jsx';
 
-// const randomJobs = [1, 2, 3, 4, 5, 6, 7, 8];
-
 const LatestJobs = () => {
     //const {allJobs} = useSelector(store=>store.job);
    

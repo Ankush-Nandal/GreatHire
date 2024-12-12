@@ -11,8 +11,10 @@ import RefundAndReturnPolicy from "./components/Policies/RefundAndReturnPolicy";
 import TermsAndConditions from "./components/Policies/TermsAndConditions";
 import Profile from "./components/Profile";
 import { JobDetailsProvider } from "./context/JobDetailsContext";
+import MainApply from "./components/ApplyJobs/MainApply";
 
 import PostJob from "./components/admin/PostJob";
+import Success from "./components/Success";
 
 const appRouter = createBrowserRouter([
   {
@@ -34,6 +36,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/description/:id",
     element: <JobDescription />,
+  },
+  {
+    path: "/apply",
+    element:<MainApply />,
   },
   {
     path: "/browse",
@@ -62,6 +68,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/admin/post-job",
     element: <PostJob />,
+  },
+  {
+    path: "/success",
+    element: <Success />,
   },
   //Pull req. check..... (change by ankush sir)...
   // complete this project at saturday
