@@ -14,6 +14,8 @@ import { JobDetailsProvider } from "./context/JobDetailsContext";
 
 import Dashboard from "./components/admin/Dashboard";
 import PostJob from "./components/admin/PostJob";
+import MainApply from "./components/ApplyJobs/MainApply";
+import ReportJob from "./components/ReportJob";
 
 const appRouter = createBrowserRouter([
   {
