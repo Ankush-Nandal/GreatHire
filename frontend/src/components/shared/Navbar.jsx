@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { user } = useSelector((store) => store.auth || {});
-  const [isPolicyHovered, setIsPolicyHovered] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Handle navigation to a specific section
+  const handleScrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+      setIsMenuOpen(false); // Close the sidebar after navigation
+    }
+  };
+
   return (
     <div className="bg-white shadow-md">
-      <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
+      <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-4 lg:px-0">
         {/* Logo */}
         <div>
           <h1 className="text-2xl font-bold">
@@ -15,84 +23,155 @@ const Navbar = () => {
           </h1>
         </div>
 
-        {/* Navbar Links */}
-        <div className="flex items-center gap-12">
+        {/* Navbar Links for Large Devices */}
+        <div className="hidden lg:flex lg:items-center lg:gap-12">
           <ul className="flex font-medium items-center gap-5">
-            <li className="hover:text-blue-700 transition duration-200">
-              <Link to="/">Home</Link>
-            </li>
-            <li className="hover:text-blue-700 transition duration-200">
-              <Link to="/jobs">Jobs</Link>
-            </li>
-            <li className="hover:text-blue-700 transition duration-200">
-              <Link to="/browse">Browse</Link>
-            </li>
-
-            {/* Policies Dropdown */}
-            <li
-              className="relative"
-              onMouseEnter={() => setIsPolicyHovered(true)}
-              onMouseLeave={() => setIsPolicyHovered(false)}
-            >
-              <button className="font-medium focus:outline-none hover:text-blue-700 transition duration-200">
-                Policy's
+            <li>
+              <button
+                className="hover:text-blue-700 transition duration-200"
+                onClick={() => handleScrollToSection("home")}
+              >
+                <Link to="/">Home</Link>
               </button>
-              {isPolicyHovered && (
-                <div
-                  className="absolute left-0 flex flex-col bg-white border rounded-xl shadow-xl  p-2 w-60 transform origin-left animate-slide-in-right z-20"
-                >
-                  <Link
-                    to="/policy/privacy-policy"
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    Privacy Policy
-                  </Link>
-                  <Link
-                    to="/policy/refund-policy"
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    Refund and Return Policy
-                  </Link>
-                  <Link
-                    to="/policy/terms-and-conditions"
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    Terms and Conditions
-                  </Link>
-                </div>
-              )}
             </li>
-            <li className="hover:text-blue-700 transition duration-200">
-              <Link to="/contact">Contact us</Link>
+            <li>
+              <Link to="/jobs" className="hover:text-blue-700 transition duration-200">
+                Jobs
+              </Link>
+            </li>
+            <li>
+              <Link to="/browse" className="hover:text-blue-700 transition duration-200">
+                Browse
+              </Link>
+            </li>
+            <li>
+              <button
+                className="hover:text-blue-700 transition duration-200"
+                onClick={() => handleScrollToSection("policies")}
+              >
+                Policies
+              </button>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-blue-700 transition duration-200">
+                Contact us
+              </Link>
             </li>
           </ul>
+          {/* Login and Signup Buttons */}
+          <div className="flex items-center gap-4">
+            <Link to="/login">
+              <button className="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800">
+                Login
+              </button>
+            </Link>
+            <Link to="/signup">
+              <button className="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800">
+                Signup
+              </button>
+            </Link>
+          </div>
+        </div>
 
-          {/* User Authentication */}
-          {!user ? (
-            <div className="flex items-center gap-2">
-              <Link to="/login">
-                <button className="bg-gradient-to-r from-[#3043a3] to-[#435bc5] text-white hover:from-[#4350c5] hover:to-[#303fa3]  shadow-md px-4 py-2 rounded">
-                  Login
-                </button>
-              </Link>
-              <Link to="/signup">
-                <button className="bg-gradient-to-r from-[#6A30A3] to-[#8A43C5] text-white hover:from-[#8A43C5] hover:to-[#6A30A3] shadow-md px-4 py-2 rounded">
-                  Signup
-                </button>
-              </Link>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              {/* User Avatar */}
-              <div className="cursor-pointer hover:ring-2 hover:ring-[#355ff8] rounded-full p-1">
-                <img
-                  src="https://github.com/shadcn.png"
-                  alt="User Avatar"
-                  className="w-10 h-10 rounded-full"
-                />
-              </div>
-            </div>
-          )}
+        {/* Hamburger Icon for Small Devices */}
+        <button
+          className="lg:hidden text-gray-700 focus:outline-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <svg
+            className="w-6 h-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* Sliding Sidebar for Small Devices */}
+      <div
+        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform ${
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 z-50 lg:hidden`}
+      >
+        <div className="flex items-center justify-between px-4 py-4 border-b">
+          <h1 className="text-xl font-bold">
+            Great<span className="text-blue-700">Hire</span>
+          </h1>
+          <button
+            className="text-gray-700 focus:outline-none"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <ul className="flex flex-col font-medium mt-4">
+          <li
+            className="px-4 py-2 hover:bg-gray-100"
+            onClick={() => handleScrollToSection("home")}
+          >
+            <Link to="/" onClick={() => setIsMenuOpen(false)}>
+              Home
+            </Link>
+          </li>
+          <li className="px-4 py-2 hover:bg-gray-100">
+            <Link to="/jobs" onClick={() => setIsMenuOpen(false)}>
+              Jobs
+            </Link>
+          </li>
+          <li className="px-4 py-2 hover:bg-gray-100">
+            <Link to="/browse" onClick={() => setIsMenuOpen(false)}>
+              Browse
+            </Link>
+          </li>
+          <li
+            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            onClick={() => handleScrollToSection("policies")}
+          >
+            <Link to="/policies" onClick={() => setIsMenuOpen(false)}>
+              Policies
+            </Link>
+          </li>
+          <li className="px-4 py-2 hover:bg-gray-100">
+            <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
+              Contact us
+            </Link>
+          </li>
+        </ul>
+
+        {/* Login and Signup Buttons in Sidebar */}
+        <div className="px-4 mt-6">
+          <Link to="/login">
+            <button className="w-full px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 mb-4">
+              Login
+            </button>
+          </Link>
+          <Link to="/signup">
+            <button className="w-full px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800">
+              Signup
+            </button>
+          </Link>
         </div>
       </div>
     </div>
