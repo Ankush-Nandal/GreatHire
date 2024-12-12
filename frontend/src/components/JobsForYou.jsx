@@ -8,6 +8,7 @@ import { CiBookmark } from "react-icons/ci";
 import { MdBlock } from "react-icons/md";
 import { IoMdLink } from "react-icons/io";
 import { RiShareBoxFill } from "react-icons/ri";
+import { BsFlagFill } from "react-icons/bs";
 import JobMajorDetails from "./JobMajorDetails";
 import { useNavigate } from "react-router-dom";
 import { useJobDetails } from "../context/JobDetailsContext";
@@ -26,6 +27,13 @@ const JobsForYou = () => {
   } = useJobDetails(); // Access functions from context
 
   const navigate = useNavigate();
+  const [isClickOnThreeDot, setClickOnThreeDot] = useState(false);
+
+  // for bookmark job for particular user
+  const handleBookmark = () => {};
+
+  // for hide job for particular user
+  const handleHiddenJob = () => {};
 
   useEffect(() => {
     // Set the initial selected job if it's not already set
@@ -36,15 +44,15 @@ const JobsForYou = () => {
   }, []);
 
   return (
-    <div className="flex justify-center  mt-4 gap-4 h-screen sticky top-10 ">
+    <div className="flex justify-center  mt-4 gap-4 h-screen sticky top-10 lg:px-6">
       {/* Job List */}
       <div
-        className={`flex flex-col gap-4 w-full md:w-1/2  h-screen m-5 md:m-0  scrollbar-hide overflow-y-scroll `}
+        className={`flex flex-col gap-4 w-full md:w-1/2  h-screen m-5 md:m-0  scrollbar-hide overflow-y-scroll  `}
       >
         {jobs.map((job) => (
           <div
             key={job.id}
-            className={`p-4 border-2 rounded-lg cursor-pointer hover:shadow-lg ${
+            className={`p-4 border-2 rounded-lg cursor-pointer hover:shadow-lg relative ${
               selectedJob?.id === job.id ? "border-blue-600" : "border-gray-400"
             }`}
             onClick={() => {
@@ -56,11 +64,32 @@ const JobsForYou = () => {
               }
             }}
           >
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-2 ">
               <p className="text-sm bg-violet-100 rounded-md p-1 text-violet-800 font-bold">
                 Urgent Hiring
               </p>
-              <BsThreeDotsVertical />
+              <BsThreeDotsVertical
+                onClick={() => setClickOnThreeDot(!isClickOnThreeDot)}
+              />
+              {selectedJob?.id === job.id && isClickOnThreeDot && (
+                <div className="absolute top-10 right-2 border border-black rounded-lg p-2 flex-col justify-center gap-10 z-20 transform origin-left animate-slide-in-right">
+                  <p className="p-2 flex gap-2 items-center text-gray-800 hover:bg-gray-200 rounded-lg">
+                    <CiBookmark size={25} />
+                    <span>Save job</span>
+                  </p>
+                  <p className="p-2 flex gap-2 items-center text-gray-800 hover:bg-gray-200 rounded-lg">
+                    <MdBlock size={25} />
+                    <span>Not interested</span>
+                  </p>
+                  <p
+                    className="p-2 flex gap-2 items-center text-gray-800 hover:bg-gray-200 rounded-lg"
+                    onClick={() => navigate(`/report-job/${selectedJob?.id}`)}
+                  >
+                    <BsFlagFill />
+                    <span>Is there a problem with job?</span>
+                  </p>
+                </div>
+              )}
             </div>
             <h3 className="text-lg font-semibold">{job.title}</h3>
             <p className="text-sm text-gray-600">

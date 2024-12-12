@@ -5,6 +5,7 @@ const jobs = [
     id: 1,
     title: "Software Engineer",
     companyName: "Amazon",
+    experience:"2",
     rating: "3.1",
     location: "Navi Mumbai, Maharashtra",
     respond: "Typically responds within 1 day",
