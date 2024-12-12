@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { RiShareBoxFill } from "react-icons/ri";
 import { BiDownArrowAlt } from "react-icons/bi";
+import { BsPersonWorkspace } from "react-icons/bs";
 import { HiLightBulb } from "react-icons/hi";
 import { FaBookOpen } from "react-icons/fa6";
 import { GrLanguage } from "react-icons/gr";
@@ -16,35 +17,35 @@ const JobMajorDetails = ({
   onUpdateLanguage,
   onUpdateJob,
 }) => {
-  const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
-  const [currentEducationIndex, setCurrentEducationIndex] = useState(0);
-  const [currentLanguageIndex, setCurrentLanguageIndex] = useState(0);
+  // const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
+  // const [currentEducationIndex, setCurrentEducationIndex] = useState(0);
+  // const [currentLanguageIndex, setCurrentLanguageIndex] = useState(0);
   const navigate = useNavigate();
 
-  const handleSkillSelection = (skill, status) => {
-    onUpdateSkill(skill, status);
-    if (currentSkillIndex < selectedJob.skills.length) {
-      setCurrentSkillIndex(currentSkillIndex + 1);
-    }
-  };
+  // const handleSkillSelection = (skill, status) => {
+  //   onUpdateSkill(skill, status);
+  //   if (currentSkillIndex < selectedJob.skills.length) {
+  //     setCurrentSkillIndex(currentSkillIndex + 1);
+  //   }
+  // };
 
-  const handleEducationSelection = (edu, status) => {
-    onUpdateEducation(edu, status);
-    if (currentEducationIndex < selectedJob.educations.length) {
-      setCurrentEducationIndex(currentEducationIndex + 1);
-    }
-  };
+  // const handleEducationSelection = (edu, status) => {
+  //   onUpdateEducation(edu, status);
+  //   if (currentEducationIndex < selectedJob.educations.length) {
+  //     setCurrentEducationIndex(currentEducationIndex + 1);
+  //   }
+  // };
 
-  const handleLanguageSelection = (lan, status) => {
-    onUpdateLanguage(lan, status);
-    if (currentLanguageIndex < selectedJob.languages.length) {
-      setCurrentLanguageIndex(currentLanguageIndex + 1);
-    }
-  };
+  // const handleLanguageSelection = (lan, status) => {
+  //   onUpdateLanguage(lan, status);
+  //   if (currentLanguageIndex < selectedJob.languages.length) {
+  //     setCurrentLanguageIndex(currentLanguageIndex + 1);
+  //   }
+  // };
 
-  const handleJobSelection = (status) => {
-    onUpdateJob(status);
-  };
+  // const handleJobSelection = (status) => {
+  //   onUpdateJob(status);
+  // };
 
   return (
     <div>
@@ -52,81 +53,36 @@ const JobMajorDetails = ({
       <div className="p-4 flex flex-col justify-center gap-4 border-b-2 border-gray-200 ">
         <div>
           <h1 className="text-xl font-bold">Profile Insight</h1>
-          <p className="flex items-center gap-1 text-gray-500">
+          {/* <p className="flex items-center gap-1 text-gray-500">
             Here’s how the job qualifications align with your profile{" "}
             <RiShareBoxFill />{" "}
-          </p>
+          </p> */}
         </div>
 
         {/* Skills Section */}
-        <div className="mt-4">
+        <div className="mt-2">
           <h3 className="text-xl text-gray-500 flex items-center gap-2">
             <HiLightBulb />
             <span className="text-xl font-bold text-black">Skills</span>
           </h3>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {selectedJob?.skills.map((skill, index) => (
-              <div
-                key={index}
-                className={`flex items-center w-fit p-1 rounded-lg ${
+          {/* ${
                   skill.status === ""
                     ? "bg-slate-200"
                     : skill.status === "Yes"
                     ? "bg-green-200"
                     : "bg-red-200"
-                } gap-1 text-sm text-gray-800`}
+                } */}
+          <div className="flex flex-wrap gap-2 mt-2">
+            {selectedJob?.skills.map((skill, index) => (
+              <div
+                key={index}
+                className={`flex items-center w-fit p-1 rounded-lg bg-slate-200 gap-1 text-sm text-gray-800`}
               >
                 <span className="font-bold">{skill.skill}</span>
                 <span>{skill.required ? "(required)" : ""}</span>
               </div>
             ))}
           </div>
-
-          {currentSkillIndex < selectedJob?.skills.length && (
-            <div className="mt-2">
-              <p>
-                Do you have experience in{" "}
-                <span className="font-bold">
-                  {selectedJob?.skills[currentSkillIndex].skill}?
-                </span>
-              </p>
-              <div className="flex gap-4 mt-2">
-                <button
-                  className={`py-1 px-4 border-2 rounded-lg font-bold border-gray-300 text-blue-600`}
-                  onClick={() =>
-                    handleSkillSelection(
-                      selectedJob?.skills[currentSkillIndex].skill,
-                      "Yes"
-                    )
-                  }
-                >
-                  Yes
-                </button>
-                <button
-                  className={`py-1 px-4 border-2 rounded-lg font-bold border-gray-300 text-blue-600`}
-                  onClick={() =>
-                    handleSkillSelection(
-                      selectedJob?.skills[currentSkillIndex].skill,
-                      "No"
-                    )
-                  }
-                >
-                  No
-                </button>
-                <button
-                  className="py-1 px-4 border-2 text-blue-600 rounded-lg font-bold border-gray-300"
-                  onClick={() =>
-                    handleSkillSelection(
-                      selectedJob?.skills[currentSkillIndex].skill,
-                      ""
-                    )
-                  }
-                >
-                  Skip
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Education Section */}
@@ -140,66 +96,13 @@ const JobMajorDetails = ({
             {selectedJob?.educations.map((education, index) => (
               <div
                 key={index}
-                className={`flex items-center w-fit p-1 rounded-lg ${
-                  education.status === ""
-                    ? "bg-slate-200"
-                    : education.status === "Yes"
-                    ? "bg-green-200"
-                    : "bg-red-200"
-                }  gap-1 text-sm text-gray-800`}
+                className={`flex items-center w-fit p-1 rounded-lg bg-slate-200 gap-1 text-sm text-gray-800`}
               >
                 <span className="font-bold">{education.edu}</span>
                 <span>{education.required ? "(required)" : ""}</span>
               </div>
             ))}
           </div>
-
-          {currentEducationIndex < selectedJob?.educations.length && (
-            <div className="mt-2">
-              <p>
-                Do you have{" "}
-                <span className="font-bold">
-                  {selectedJob?.educations[currentEducationIndex].edu}
-                </span>{" "}
-                degree ?
-              </p>
-              <div className="flex gap-4 mt-2">
-                <button
-                  className="py-1 px-4 border-gray-300 border-2 text-blue-600 rounded-lg font-bold"
-                  onClick={() =>
-                    handleEducationSelection(
-                      selectedJob?.educations[currentEducationIndex].edu,
-                      "Yes"
-                    )
-                  }
-                >
-                  Yes
-                </button>
-                <button
-                  className="py-1 px-4 border-gray-300 border-2 text-blue-600 rounded-lg font-bold"
-                  onClick={() =>
-                    handleEducationSelection(
-                      selectedJob?.educations[currentEducationIndex].edu,
-                      "No"
-                    )
-                  }
-                >
-                  No
-                </button>
-                <button
-                  className="py-1 px-2 text-blue-600 font-bold "
-                  onClick={() =>
-                    handleEducationSelection(
-                      selectedJob?.educations[currentEducationIndex].edu,
-                      ""
-                    )
-                  }
-                >
-                  Skip
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Language Section */}
@@ -212,66 +115,13 @@ const JobMajorDetails = ({
             {selectedJob?.languages.map((language, index) => (
               <div
                 key={index}
-                className={`flex items-center w-fit p-1 rounded-lg ${
-                  language.status === ""
-                    ? "bg-slate-200"
-                    : language.status === "Yes"
-                    ? "bg-green-200"
-                    : "bg-red-200"
-                } gap-1 text-sm text-gray-800`}
+                className={`flex items-center w-fit p-1 rounded-lg bg-slate-200  gap-1 text-sm text-gray-800`}
               >
                 <span className="font-bold">{language.lan}</span>
                 <span>{language.required ? "(required)" : ""}</span>
               </div>
             ))}
           </div>
-
-          {currentLanguageIndex < selectedJob?.languages.length && (
-            <div className="mt-2">
-              <p>
-                Do you know{" "}
-                <span className="font-bold">
-                  {selectedJob?.languages[currentLanguageIndex].lan}
-                </span>{" "}
-                ?
-              </p>
-              <div className="flex gap-4 mt-2">
-                <button
-                  className="py-1 px-4 border-gray-300 border-2 text-blue-600 rounded-lg font-bold"
-                  onClick={() =>
-                    handleLanguageSelection(
-                      selectedJob?.languages[currentLanguageIndex].lan,
-                      "Yes"
-                    )
-                  }
-                >
-                  Yes
-                </button>
-                <button
-                  className="py-1 px-4 border-gray-300 border-2 text-blue-600 rounded-lg font-bold"
-                  onClick={() =>
-                    handleLanguageSelection(
-                      selectedJob?.languages[currentLanguageIndex].lan,
-                      "No"
-                    )
-                  }
-                >
-                  No
-                </button>
-                <button
-                  className="py-1 px-2 text-blue-600 font-bold"
-                  onClick={() =>
-                    handleLanguageSelection(
-                      selectedJob?.languages[currentLanguageIndex].lan,
-                      ""
-                    )
-                  }
-                >
-                  Skip
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
@@ -279,14 +129,14 @@ const JobMajorDetails = ({
       <div className="p-4 flex flex-col justify-center gap-4 border-b-2 border-gray-200">
         <div>
           <h1 className="text-xl font-bold">Job details</h1>
-          <p className="flex items-center gap-1 text-gray-500">
+          {/* <p className="flex items-center gap-1 text-gray-500">
             Here’s how the job details align with your profile{" "}
             <RiShareBoxFill />{" "}
-          </p>
+          </p> */}
         </div>
 
         {/* Pay Section */}
-        <div className="mt-4">
+        <div className="mt-2">
           <h3 className="text-xl text-gray-500 flex items-center gap-2">
             <PiMoneyWavyFill />
             <span className="text-xl font-bold text-black">Pay</span>
@@ -294,9 +144,19 @@ const JobMajorDetails = ({
           <div className="flex flex-wrap gap-2 mt-2">
             <div className="flex items-center w-fit p-1 rounded-lg  bg-slate-200 gap-1 text-sm text-gray-800">
               <span className="font-bold">{selectedJob?.salary}</span>
-              <span>
-                <BiDownArrowAlt />
-              </span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Experience Section */}
+        <div className="mt-2">
+          <h3 className="text-xl text-gray-500 flex items-center gap-2">
+            <BsPersonWorkspace />
+            <span className="text-xl font-bold text-black">Experience</span>
+          </h3>
+          <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex items-center w-fit px-4 rounded-lg bg-slate-200 gap-1 text-sm text-gray-800">
+              <span className="font-bold">{selectedJob?.experience} Years</span>
             </div>
           </div>
         </div>
@@ -309,48 +169,17 @@ const JobMajorDetails = ({
           </h3>
           <div className="flex flex-wrap gap-2 mt-2">
             <div
-              className={`flex items-center w-fit p-1 rounded-lg ${
-                selectedJob?.jobType.status === ""
-                  ? "bg-slate-200"
-                  : selectedJob?.jobType.status === "Yes"
-                  ? "bg-green-200"
-                  : "bg-red-200"
-              } gap-1 text-sm text-gray-800`}
+              className={`flex items-center w-fit p-1 rounded-lg bg-slate-200 gap-1 text-sm text-gray-800`}
             >
               <span className="font-bold">{selectedJob?.jobType.type}</span>
             </div>
           </div>
-
-          {selectedJob?.jobType.status === "" && (
-            <div className="mt-2">
-              <p>
-                Do you like{" "}
-                <span className="font-bold">{selectedJob?.jobType.type}</span>{" "}
-                job?
-              </p>
-              <div className="flex gap-4 mt-2">
-                <button
-                  className="py-1 px-4 border-gray-300 border-2 text-blue-600 rounded-lg font-bold"
-                  onClick={() => handleJobSelection("Yes")}
-                >
-                  Yes
-                </button>
-
-                <button
-                  className="py-1 px-4 border-gray-300 border-2 text-blue-600 rounded-lg font-bold"
-                  onClick={() => handleJobSelection("No")}
-                >
-                  No
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
       {/* Full Job Description */}
       <div className="p-4 flex flex-col justify-center gap-4 border-b-2 border-gray-200">
-      <h1 className="text-xl font-bold">Job details</h1>
+      <h1 className="text-xl font-bold">Full Job Description</h1>
         <p className="font-semibold">
           Please Note: After the submission of your application, you will
           receive an email to complete a virtual interview via our online
@@ -429,7 +258,7 @@ const JobMajorDetails = ({
       </div>
 
       <div className="p-4">
-        <button className="flex items-center gap-2 bg-gray-400 p-2 rounded-lg cursor-pointer" onClick={()=> navigate("/report-job")}>
+        <button className="flex items-center gap-2 bg-gray-400 p-2 rounded-lg cursor-pointer" onClick={()=> navigate(`/report-job/${selectedJob?.id}`)}>
           <BsFlagFill /> <span className="font-semibold">Report Job</span>
         </button>
       </div>

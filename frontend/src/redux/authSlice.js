@@ -16,6 +16,9 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    logOut: (state) => {
+      state.user = null;
+    },
     // New action for searchedQuery
     setSearchedQuery: (state, action) => {
       state.searchedQuery = action.payload;
@@ -23,6 +26,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setLoading, setUser, setSearchedQuery } = authSlice.actions;
+export const { setLoading, setUser, logOut, setSearchedQuery } = authSlice.actions;
 
 export default authSlice.reducer;

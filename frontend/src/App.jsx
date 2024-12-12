@@ -1,17 +1,21 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
-import Home from "./components/Home";
-import Jobs from "./components/Jobs";
 import Browse from "./components/Browse";
-import Profile from "./components/Profile";
+import Contact from "./components/Contact";
+import Home from "./components/Home";
 import JobDescription from "./components/JobDescription";
+import Jobs from "./components/Jobs";
 import PrivacyPolicy from "./components/Policies/PrivacyPolicy";
 import RefundAndReturnPolicy from "./components/Policies/RefundAndReturnPolicy";
 import TermsAndConditions from "./components/Policies/TermsAndConditions";
-import Contact from "./components/Contact";
+import Profile from "./components/Profile";
 import { JobDetailsProvider } from "./context/JobDetailsContext";
-// this is osm
+
+import Dashboard from "./components/admin/Dashboard";
+import PostJob from "./components/admin/PostJob";
+import MainApply from "./components/ApplyJobs/MainApply";
+import ReportJob from "./components/ReportJob";
 
 const appRouter = createBrowserRouter([
   {
@@ -33,6 +37,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/description/:id",
     element: <JobDescription />,
+  },
+  {
+    path: "/apply",
+    element:<MainApply />,
   },
   {
     path: "/browse",
@@ -58,6 +66,16 @@ const appRouter = createBrowserRouter([
     path: "/contact",
     element: <Contact />,
   },
+  {
+    path: "/report-job/:id",
+    element: <ReportJob />,
+  },
+  {
+    path: "/recruiter/post-job",
+    element: <PostJob />,
+  },
+  //Pull req. check..... (change by ankush sir)...
+  // complete this project at saturday
 ]);
 
 function App() {
